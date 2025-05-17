@@ -1,11 +1,13 @@
+import { AuthMethodType } from "../../app/constants/injection-token.constants";
+
 export class AuthToken {
     constructor(
-        public authType: string,
+        public authType: AuthMethodType,
         public token: string
     ) { }
 
     static create(
-        authType: string,
+        authType: AuthMethodType,
         token: string
     ): AuthToken {
         return new AuthToken(authType, token);

@@ -1,0 +1,12 @@
+/* Add styles for the login component */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+button {
+  margin-top: 16px;
+}
