@@ -15,4 +15,4 @@ export const environment = {
 `;
 
 fs.writeFileSync(targetPath, content, 'utf8');
-console.log(`✅ Generated: ${targetPath}`);
+console.log(`✅ Generated: ${targetPath}: ${content}`);
