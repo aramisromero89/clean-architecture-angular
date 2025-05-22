@@ -24,7 +24,7 @@ RUN ls -al /app/dist && ls -al /app/dist/clean-architecture-angular
 FROM nginx:alpine
 
 # Copy the build output to the Nginx HTML directory
-COPY --from=build /app/dist/clean-architecture-angular /usr/share/nginx/html
+COPY --from=build /app/dist/clean-architecture-angular/browser /usr/share/nginx/html
 RUN ls -al /usr/share/nginx/html
 
 # Copy custom Nginx configuration (optional)
