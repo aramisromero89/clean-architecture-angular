@@ -5,7 +5,7 @@
     "ng": "ng",
     "prestart": "node ./scripts/env-generator.js && node ./scripts/rest-client-generator.js",
     "start": "ng serve",
-    "build": "node ./scripts/env-generator.js && ng build",
+    "build": "npm run prestart && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
