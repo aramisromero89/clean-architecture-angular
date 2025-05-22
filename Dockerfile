@@ -3,8 +3,10 @@ FROM node:18 AS build
 
 RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
 ARG API_URL
+ARG GOOGLE_CLIENT_ID
 
 ENV API_URL=$API_URL
+ENV GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID
 
 # Set working directory
 WORKDIR /app
