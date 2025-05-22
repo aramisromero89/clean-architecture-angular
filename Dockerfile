@@ -3,6 +3,8 @@ FROM node:18 AS build
 
 ENV API_URL=$_API_URL
 
+RUN echo "Using API_URL: $_API_URL"
+
 # Set working directory
 WORKDIR /app
 
