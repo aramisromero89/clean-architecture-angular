@@ -44,4 +44,3 @@ Thumbs.db
 /src/environments/environment.ts
 /api-client
 /openapitools.json
-/.env
