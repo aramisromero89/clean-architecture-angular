@@ -18,12 +18,14 @@ COPY . .
 
 # Build the Angular app in production mode
 RUN npm run build -- --configuration production
+RUN ls -al /app/dist && ls -al /app/dist/clean-architecture-angular
 
 # Stage 2: Serve the app with Nginx
 FROM nginx:alpine
 
 # Copy the build output to the Nginx HTML directory
 COPY --from=build /app/dist/clean-architecture-angular /usr/share/nginx/html
+RUN ls -al /usr/share/nginx/html
 
 # Copy custom Nginx configuration (optional)
 # COPY nginx.conf /etc/nginx/nginx.conf
