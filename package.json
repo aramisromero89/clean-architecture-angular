@@ -3,9 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "prestart": "node env-generator.js",
+    "prestart": "node ./scripts/env-generator.js && node ./scripts/rest-client-generator.js",
     "start": "ng serve",
-    "build": "node env-generator.js && ng build",
+    "build": "node ./scripts/env-generator.js && ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -24,7 +24,6 @@
     "@openapitools/openapi-generator-cli": "^2.20.0",
     "axios": "^1.9.0",
     "dotenv": "^16.5.0",
-    "firebase": "^11.7.3",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "whatwg-fetch": "^3.6.20",
@@ -35,6 +34,7 @@
     "@angular/cli": "^19.2.10",
     "@angular/compiler-cli": "^19.2.0",
     "@types/jasmine": "~5.1.0",
+    "dotenv-cli": "^8.0.0",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",
