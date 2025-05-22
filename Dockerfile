@@ -1,7 +1,7 @@
 # Stage 1: Build the Angular app
 FROM node:18 AS build
 
-RUN apt-get update && apt-get install -y openjdk-11-jdk && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
 ARG API_URL
 
 ENV API_URL=$API_URL
