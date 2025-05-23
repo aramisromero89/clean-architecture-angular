@@ -28,7 +28,7 @@ export class AppComponent {
     private logoutUseCase: LoginOutCase
   ) { }
 
-  title = 'clean-architecture-angular';
+  title = 'Todo';
 
   async logout() {
     await this.logoutUseCase.execute();
