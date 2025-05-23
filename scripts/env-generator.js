@@ -1,6 +1,6 @@
 const fs = require('fs');
 const dotenv = require('dotenv');
-
+dotenv.config();
 const targetPath = './src/environments/environment.ts';
 
 

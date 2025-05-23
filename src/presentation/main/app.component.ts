@@ -10,6 +10,7 @@ import { LoginComponent } from '../login/login.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
+import { LoginOutCase } from '../../app/use-cases/logout.use-case';
 
 @Component({
   selector: 'app-root',
@@ -24,7 +25,12 @@ export class AppComponent {
     @Inject(API_CLIENT_TOKEN) private apiClient: ApiClientInterface,
     private loginUseCase: LoginUseCase,
     public appState: AppStateService,
+    private logoutUseCase: LoginOutCase
   ) { }
 
   title = 'clean-architecture-angular';
+
+  async logout() {
+    await this.logoutUseCase.execute();
+  }
 }
