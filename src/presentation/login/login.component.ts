@@ -11,6 +11,8 @@ import { LoginUseCase } from '../../app/use-cases/login.use-case';
 import { AUTH_METHODS, PASSWORD_AUTH_TOKEN } from '../../app/constants/injection-token.constants';
 import {MatCardModule} from '@angular/material/card';
 import {MatListModule} from '@angular/material/list';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-login',
@@ -24,18 +26,22 @@ import {MatListModule} from '@angular/material/list';
         MatButtonModule,
         MatListModule,
         MatCardModule,
-        CommonModule
+        CommonModule,
+        MatSnackBarModule,
+        MatProgressSpinnerModule
     ],
 })
 export class LoginComponent {
     loginForm: FormGroup;
     private authServices: AuthServiceInterface[] = [];
+    loading = false;
     passwordAuthService: PasswordAuthService;
 
     constructor(
         private fb: FormBuilder,      
         private injector: Injector,
-        private loginUseCase: LoginUseCase
+        private loginUseCase: LoginUseCase,
+        private snackBar: MatSnackBar
     ) {
         this.passwordAuthService = this.injector.get<PasswordAuthService>(PASSWORD_AUTH_TOKEN);
         this.loginForm = this.fb.group({
@@ -45,8 +51,21 @@ export class LoginComponent {
 
         for (const [key, value] of Object.entries(AUTH_METHODS)) {
             const service = this.injector.get<AuthServiceInterface>(value);
-            service.credentialStatus().subscribe((authMethod) => {
-                loginUseCase.execute(authMethod);
+            service.credentialStatus().subscribe(async (authMethod) =>  {
+                this.loading = true;
+                try{
+                    await loginUseCase.execute(authMethod);
+                }                
+                catch (error) {
+                    this.snackBar.open(
+                        'Login failed. Please try again.',
+                        'Close',
+                        { duration: 4000 }
+                    );
+
+                } finally {
+                    this.loading = false;
+                }
             });
         }
     }

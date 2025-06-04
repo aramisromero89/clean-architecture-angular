@@ -1,6 +1,10 @@
 
 <div style="display: flex; justify-content: center; align-items: center; min-height: 100%;">
   <form [formGroup]="loginForm" (ngSubmit)="onLogin()" style="display: flex; flex-direction: column; width: 100%; max-width: 400px;">
+    <div *ngIf="loading" 
+         style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: rgba(255,255,255,0.7); z-index: 2; display: flex; justify-content: center; align-items: center;">
+      <mat-progress-spinner mode="indeterminate" diameter="32"></mat-progress-spinner>
+    </div>
   <mat-form-field appearance="fill">
     <mat-label>Email</mat-label>
     <input matInput formControlName="email" type="email" placeholder="Enter your email">
