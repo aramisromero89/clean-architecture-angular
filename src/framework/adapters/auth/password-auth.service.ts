@@ -17,17 +17,17 @@ export class PasswordAuthService implements AuthServiceInterface {
        
     constructor() {
         console.log('PasswordService instance created');
+        this.credentials.subscribe((authMethod) => {
+          console.log(authMethod);
+            
+        });
     }
 
         credentialStatus(): Observable<AuthMethod> {
             return this.credentials;
         }
     
-    setCredentials(email: string,password: string): void {
-        this.credentials.subscribe((authMethod) => {
-          console.log(authMethod);
-            
-        });
+    setCredentials(email: string,password: string): void {        
         this.credentials.next({
             method: AuthMethodType.PASSWORD,
             data: {

@@ -5,7 +5,7 @@ import { ApiClientInterface } from "../ports/services/api-service.interface";
 import { AppStateService } from "../state/app-state.service";
 
 @Injectable({ providedIn: 'root' })
-export class LoginOutCase {   
+export class LogoutCase {   
     constructor( @Inject(API_CLIENT_TOKEN) private apiClient: ApiClientInterface,private appState: AppStateService, private injector: Injector ) {}
     async execute(): Promise<void> {       
             this.appState.setAuthToken(null);           

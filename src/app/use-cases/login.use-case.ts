@@ -7,7 +7,7 @@ import { AppStateService } from "../state/app-state.service";
 @Injectable({ providedIn: 'root' })
 export class LoginUseCase {   
     constructor( @Inject(API_CLIENT_TOKEN) private apiClient: ApiClientInterface,private appState: AppStateService, private injector: Injector ) {}
-    async execute(authMethod: AuthMethod): Promise<void> {        
+    async execute(authMethod: AuthMethod): Promise<boolean> {        
         let res = await this.apiClient.login({
             method: authMethod.method,
             data: authMethod.data
@@ -19,10 +19,10 @@ export class LoginUseCase {
             });
             let profile = await this.apiClient.getProfile();
             this.appState.setProfile(profile);
-            
+            return true
         } else {
             // Handle login failure
-            console.error("Login failed");
+            return false;
         }
     }
 }

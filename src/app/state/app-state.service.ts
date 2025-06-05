@@ -1,9 +1,6 @@
 import { Injectable, Injector, signal } from "@angular/core";
 import { AuthToken } from "../../domain/objetcs/auth-token.object";
 import { Profile } from "../../domain/entities/profile.entity";
-import { AuthServiceInterface } from "../ports/services/auth.service.interface";
-import { AUTH_METHODS } from "../constants/injection-token.constants";
-import { LoginUseCase } from "../use-cases/login.use-case";
 
 @Injectable({ providedIn: 'root' })
 export class AppStateService {

@@ -8,6 +8,8 @@ import { environment } from "../../../environments/environment";
 import { AuthToken } from "../../../domain/objetcs/auth-token.object";
 import { Configuration, ControllerAuthApi, createConfiguration, ServerConfiguration } from "../../../../api-client";
 import { AppStateService } from "../../../app/state/app-state.service";
+import { RegisterUserInput } from "../../../app/dtos/register-user.input";
+import { AUTH_METHODS, AuthMethodType } from "../../../app/constants/injection-token.constants";
 
 @Injectable({ providedIn: 'root' })
 export class ApiClientGeneratedService implements ApiClientInterface {
@@ -35,6 +37,18 @@ export class ApiClientGeneratedService implements ApiClientInterface {
         this.conf.middleware.push();
         this.apiClient = new ControllerAuthApi(this.conf);
     }
+    register(input: RegisterUserInput): Promise<boolean> {
+        return this.apiClient.controllerAuthRegister({
+            authMethod: {
+                type: AuthMethodType.PASSWORD,
+                data: {password:input.password}
+            },           
+            email: input.email,
+            name: input.name,
+            surname: input.surname,
+            profilePicture: input.profilePicture ?? ""
+        });
+    }
 
     async getProfile(): Promise<ProfileResponseDto> {
         let res = await this.apiClient.controllerAuthProfile();
@@ -56,4 +70,6 @@ export class ApiClientGeneratedService implements ApiClientInterface {
             method: res.method
         }
     }
+
+    
 }

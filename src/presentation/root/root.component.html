@@ -1,0 +1,31 @@
+
+<div style="display: flex; justify-content: center; align-items: center; min-height: 80vh;">
+  <mat-card class="profile-card" style="max-width:400px; width:100%; text-align: center;">
+
+
+    <div style="display: flex; flex-direction: column; align-items: center; margin: 8px;">
+      @if (!this.appState.profile()?.profileImage) {
+      <span
+        style="display: flex; align-items: center; justify-content: center; font-size: 48px; background: #e0e0e0; border-radius: 50%; width: 64px; height: 64px; margin-bottom: 0;">
+        {{ this.appState.profile()?.name?.charAt(0)?.toUpperCase() }}
+      </span>
+      }
+      @else {
+
+      <img [src]="this.appState.profile()?.profileImage" alt="Avatar"
+        style="width:64px; height:64px; border-radius:50%; object-fit:cover;" />
+      }
+    </div>
+    <mat-card-header style="flex-direction: column; align-items: center; justify-content: center;">
+
+      <mat-card-title style="width: 100%;">{{ this.appState.profile()?.name }}</mat-card-title>
+      <mat-card-subtitle style="width: 100%;">{{ this.appState.profile()?.email }}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <!-- Add more profile fields as needed -->
+    </mat-card-content>
+    <button mat-button color="warn" (click)="this.logout()" style="margin: 32px;">Logout</button>
+  </mat-card>
+</div>
+<router-outlet />
+

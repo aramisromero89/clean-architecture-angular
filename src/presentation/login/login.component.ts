@@ -4,13 +4,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 import { PasswordAuthService } from '../../framework/adapters/auth/password-auth.service';
 import { AuthServiceInterface } from '../../app/ports/services/auth.service.interface';
 import { LoginUseCase } from '../../app/use-cases/login.use-case';
 import { AUTH_METHODS, PASSWORD_AUTH_TOKEN } from '../../app/constants/injection-token.constants';
-import {MatCardModule} from '@angular/material/card';
-import {MatListModule} from '@angular/material/list';
+import { MatCardModule } from '@angular/material/card';
+import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
@@ -28,7 +29,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         MatCardModule,
         CommonModule,
         MatSnackBarModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        RouterLink
     ],
 })
 export class LoginComponent {
@@ -38,10 +40,11 @@ export class LoginComponent {
     passwordAuthService: PasswordAuthService;
 
     constructor(
-        private fb: FormBuilder,      
+        private fb: FormBuilder,
         private injector: Injector,
         private loginUseCase: LoginUseCase,
-        private snackBar: MatSnackBar
+        private snackBar: MatSnackBar,
+        private router: Router
     ) {
         this.passwordAuthService = this.injector.get<PasswordAuthService>(PASSWORD_AUTH_TOKEN);
         this.loginForm = this.fb.group({
@@ -51,11 +54,17 @@ export class LoginComponent {
 
         for (const [key, value] of Object.entries(AUTH_METHODS)) {
             const service = this.injector.get<AuthServiceInterface>(value);
-            service.credentialStatus().subscribe(async (authMethod) =>  {
+            service.credentialStatus().subscribe(async (authMethod) => {
                 this.loading = true;
-                try{
-                    await loginUseCase.execute(authMethod);
-                }                
+                try {
+                    let sucess = await loginUseCase.execute(authMethod);
+                    if (sucess) {
+                        this.snackBar.open('Login successful!', 'Close', { duration: 3000 });
+                        this.router.navigate(['']);
+                    } else {
+                        this.snackBar.open('Login failed. Please try again.', 'Close', { duration: 4000 });
+                    }
+                }
                 catch (error) {
                     this.snackBar.open(
                         'Login failed. Please try again.',
@@ -69,7 +78,7 @@ export class LoginComponent {
             });
         }
     }
-   
+
 
     onLogin(): void {
         if (this.loginForm.valid) {
