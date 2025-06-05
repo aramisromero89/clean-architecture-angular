@@ -45,3 +45,4 @@ Thumbs.db
 /api-client
 /openapitools.json
 /.env
+/.vscode
