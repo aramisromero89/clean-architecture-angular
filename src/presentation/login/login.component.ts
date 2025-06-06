@@ -1,4 +1,4 @@
-import { Component, Injector } from '@angular/core';
+import { Component, Injector, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -14,6 +14,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatListModule } from '@angular/material/list';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'app-login',
@@ -33,12 +34,12 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
         RouterLink
     ],
 })
-export class LoginComponent {
+export class LoginComponent implements  OnDestroy{
     loginForm: FormGroup;
     private authServices: AuthServiceInterface[] = [];
     loading = false;
     passwordAuthService: PasswordAuthService;
-
+    subscriptionList: Subscription[] = [];
     constructor(
         private fb: FormBuilder,
         private injector: Injector,
@@ -46,6 +47,7 @@ export class LoginComponent {
         private snackBar: MatSnackBar,
         private router: Router
     ) {
+        
         this.passwordAuthService = this.injector.get<PasswordAuthService>(PASSWORD_AUTH_TOKEN);
         this.loginForm = this.fb.group({
             email: ['', [Validators.required, Validators.email]],
@@ -54,7 +56,7 @@ export class LoginComponent {
 
         for (const [key, value] of Object.entries(AUTH_METHODS)) {
             const service = this.injector.get<AuthServiceInterface>(value);
-            service.credentialStatus().subscribe(async (authMethod) => {
+            this.subscriptionList.push(service.credentialStatus().subscribe(async (authMethod) => {
                 this.loading = true;
                 try {
                     let sucess = await loginUseCase.execute(authMethod);
@@ -75,7 +77,12 @@ export class LoginComponent {
                 } finally {
                     this.loading = false;
                 }
-            });
+            }));
+        }
+    }
+    ngOnDestroy(): void {
+        for (const subscription of this.subscriptionList) {
+            subscription.unsubscribe();
         }
     }
 
